@@ -8,7 +8,7 @@ main()
     int i,n;
     printf("enter number of elements\n");
     scanf("%d",&n);
-    printf("enter %d elements");
+    printf("enter %d elements",n);
     for(i=1;i<=n;i++)
       scanf("%d",&num[i]);
     mergesort(1,n);
