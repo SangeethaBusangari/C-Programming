@@ -1,10 +1,11 @@
-/*program: to read text and produces encoded text by replacing each character with the character that occurs five positions later in the character set.
+//*program: to read text and produces encoded text by replacing each character with the character that occurs five positions later in the character set.
  * NAME: BUSANGARI SANGEETHA
  * ROLL NO:14MCMT40
  * DATE:26-07-2014*/
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<ctype.h>
 #define MAXSIZE 30
 int main()
 {
@@ -15,6 +16,8 @@ int main()
 	n=strlen(string);
 	while(count<n)
 	{
+	   if(isalpha(string[count]))
+           {
 		switch(string[count])
 		{
 
@@ -52,6 +55,12 @@ int main()
 				printf("%c",array[count]);
 		}
 		++count;
+	   }
+	   else
+           {
+		 printf("\nenter only charecters\n");
+		 return -1;
+	   }
 	}
 	
 }
