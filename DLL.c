@@ -10,8 +10,8 @@ struct dnode
 	struct dlist *next;
 }
 //typedef struct Queuedlist dnode;
-dnode * head=NULL;
-dnode * tail=NULL;
+struct dnode * head=NULL;
+struct dnode * tail=NULL;
 int count=0;
 int isempty()
 {
@@ -22,7 +22,7 @@ int isempty()
 }
 void insBeg(int ele)
 {
-	dnode * tmp;
+	struct dnode *tmp;
 	tmp=(dnode*)malloc(sizeof(dnode));
 	tmp->data=ele;
 	tmp->prev=NULL;
@@ -36,7 +36,7 @@ void insBeg(int ele)
 }
 void delBeg()
 {
-	dnode *tmp;
+	struct dnode *tmp;
 	tmp=head;
 	if(isempty())
 	{
@@ -56,8 +56,8 @@ void delBeg()
 }
 void insEnd(int ele)
 {
-	dnode *tmp;
-	tmp=9dnode*)malloc9sizeof(dnode));
+	struct dnode *tmp;
+	tmp=(dnode*)malloc9sizeof(dnode));
 	tmp->data=ele;
 	tmp->prev=tail;
 	if(isempty())
@@ -69,7 +69,7 @@ void insEnd(int ele)
 }
 void delEnd()
 {
-	dnode *tmp;
+	struct dnode *tmp;
 	tmp=tail;
 	if(isempty())
 	{
@@ -89,7 +89,7 @@ void delEnd()
 }
 void traversal()
 {
-	dnode *trav;
+	struct dnode *trav;
 	printf("\n");
 	if(isempty())
 		printf("\n dlist is empty\n");
@@ -100,7 +100,7 @@ void traversal()
 void delpos(int pos)
 {
 	int i;
-	dnode *trav,*tmp;
+	struct dnode *trav,*tmp;
 	if(isempty())
 	{
 		printf("\nlist is empty");
@@ -133,7 +133,7 @@ void delpos(int pos)
 void inspos(int ele,int pos)
 {
 	int i;
-	dnode *trav,*tmp;
+	struct dnode *trav,*tmp;
 	if(pos>count+1)
 	{
 		printf("\n invalid position \n");
