@@ -5,14 +5,15 @@ Date:22-08-2014*/
 #include<stdlib.h>
 struct dnode
 {
-	struct dlist *prev;
+	struct dnode *prev;
 	int data;
-	struct dlist *next;
-}
-//typedef struct Queuedlist dnode;
-struct dnode * head=NULL;
-struct dnode * tail=NULL;
+	struct dnode *next;
+};
+//typedef struct dnode dnode;
+struct dnode *head=NULL;
+struct dnode *tail=NULL;
 int count=0;
+
 int isempty()
 {
 	if(head==NULL)
@@ -23,16 +24,26 @@ int isempty()
 void insBeg(int ele)
 {
 	struct dnode *tmp;
-	tmp=(dnode*)malloc(sizeof(dnode));
+	tmp=(struct dnode*)malloc(sizeof(struct dnode));
+	if(!tmp)
+		printf("tmp cannot created\n");
 	tmp->data=ele;
-	tmp->prev=NULL;
-	tmp->next=head;
-	if(isempty())
+	if(head==NULL)
+	{
+		tmp->prev=NULL;
+		tmp->next=NULL;
+		head=tmp;
 		tail=tmp;
+	}
 	else
+	{
+		tmp->prev=NULL;
+		tmp->next=head;
 		head->prev=tmp;
 		head=tmp;
-		count++;
+	}
+	count++;
+	printf("Count in the list is %d\n",count);
 }
 void delBeg()
 {
@@ -40,33 +51,44 @@ void delBeg()
 	tmp=head;
 	if(isempty())
 	{
-		printf("\n list is empty\n");
-		return;
+	printf("\n list is empty\n");
+	return;
 	}
 	if(count==1)
-		head=tail=NULL;
+	head=tail=NULL;
 	else
-		{
-			head=head->next;
-			head->prev=NULL;
-		}
-		count--;
-		printf("The node deleted is %d",tmp->data);
-		free(tmp);
+	{
+		//var=tmp;
+		tmp=tmp->next;
+		tmp->prev=NULL;
+		free(head);
+		head=tmp;
+	}
+	count--;
+	printf("\ncount is %d \t",count);
 }
 void insEnd(int ele)
 {
 	struct dnode *tmp;
-	tmp=(dnode*)malloc9sizeof(dnode));
+	tmp=(struct dnode*)malloc(sizeof(struct dnode));
 	tmp->data=ele;
-	tmp->prev=tail;
-	if(isempty())
+	if(head==NULL)
+	{
+		tmp->prev=NULL;
+		tmp->next==NULL;
 		head=tmp;
-	else
-		tail->next=tmp;
 		tail=tmp;
-		count++;	
-}
+	}
+	else
+	{
+		tmp->prev=tail;
+		tmp->next=NULL;
+		tail->next=tmp;
+		tail=tmp;;
+	}
+	count++;
+	printf("Count in the list is %d\n",count);
+}	
 void delEnd()
 {
 	struct dnode *tmp;
@@ -80,12 +102,14 @@ void delEnd()
 		head=tail=NULL;
 	else
 	{
-		head=tail->prev;
-		tail->next=NULL;
-	}	
+		tmp=tmp->prev;
+		tmp->next=NULL;
+		free(tail);
+		tail=tmp;
+	}			
 	count--;
-	printf("\n The node deleted is %d",tmp->data);
-	free(tmp);
+	//free(tmp);
+	printf("count is %d \t",count);
 }
 void traversal()
 {
@@ -95,7 +119,7 @@ void traversal()
 		printf("\n dlist is empty\n");
 	else
 		for(trav=head;trav!=NULL;trav=trav->next)
-			printf("%d<==>",trav->data);
+	printf("%d<==>",trav->data);
 }
 void delpos(int pos)
 {
@@ -103,32 +127,34 @@ void delpos(int pos)
 	struct dnode *trav,*tmp;
 	if(isempty())
 	{
-		printf("\nlist is empty");
-		return;
+	printf("\nlist is empty");
+	return;
 	}
-	if(pos>count)
+	/*if(pos>count)
 	{
+		printf("count is %d\n",count);
 		printf("\n invalid position\n");
 		return;
-	)
+	}*/
 	else if(pos==1)
 		delBeg();
 	else if(pos==count)
 		delEnd();
 	else
+	{
+		trav=head;
+		for(i=1;i<pos-1;i++)
 		{
-			trav=head;
-			for(i=1;i<pos-1;i++)
-			{
-				trav=tav->next;
-			}
-			tmp=trav->next;
-			tmp->next->prev=tmp->prev;
-			trav->next=tmp->next;
-			count--;
-			printf("\n The deleted ele at pos %d is %d\n",tmp->data,pos);
-			free(tmp);
+			trav=trav->next;
 		}
+		tmp=trav->next;
+		tmp->next->prev=tmp->prev;
+		trav->next=tmp->next;
+		count--;
+		printf("\n The deleted ele at pos %d is %d\n",tmp->data,pos);
+		free(tmp);
+		printf("count is %d \t",count);
+	}
 }
 void inspos(int ele,int pos)
 {
@@ -140,7 +166,7 @@ void inspos(int ele,int pos)
 		return;
 	}
 	else if(pos==1)
-		insbeg(ele);
+		insBeg(ele);
 	else if(pos==count+1)
 		insEnd(ele);
 	else
@@ -150,49 +176,51 @@ void inspos(int ele,int pos)
 		{
 			trav=trav->next;
 		}
-		tmp=(dnode *)malloc(sizeof(dnode));
+		tmp=(struct dnode *)malloc(sizeof(struct dnode));
 		tmp->data=ele;
 		tmp->next=trav->next;
 		tmp->prev=trav;
 		tmp->next=tmp;
 		tmp->next->prev=tmp;
 		count++;
+		printf("count is %d \t",count);
 	}
-	
 }
 int main(void)
 {
-	int ch,ele,pos;
+	int ch,ele,pos=1;
 	while(1)
 	{
-		printf("\n 1.INSBEG\n2.DISPLAY\n3.DELETE at Beg 4.del pos\n 5.ins pos\n 6.ins at END\n7.delete at End \n 8.exit\n");
-		scanf("%d",ch);
+		printf("\n1.INSBEG\n2.DISPLAY\n3.DELETE at Beg\n4.DELETE at  pos\n5.INSERT pos\n6.INSERT at END\n7.DELETE at End\n");
+		scanf("%d",&ch);
 		switch(ch)
 		{
-			case 1:printf("\n Enter number \n");
-					scanf("%d",&ele);
-					insBeg(ele);
-					break;
+			case 1:
+				printf("\n Enter number \n");
+	       			scanf("%d",&ele);
+	      			insBeg(ele);
+		      		break;
 			case 2: traversal();
-					break;
+				break;
 			case 3: delBeg();
-					break;
+				break;
 			case 4: printf("\n Enter position");
-					scanf("%d",&pos);
-					delpos(ele);
-					break;
-			case 5: printf("enter ele position\n");
-					scanf("%d %d",&ele,&pos);
-					inspos(ele,pos);
-					break;
+				scanf("%d",&pos);
+				delpos(ele);
+				break;
+			case 5: printf("enter element and its position\n");
+				scanf("%d %d",&ele,&pos);
+				inspos(ele,pos);
+				break;
 			case 6: printf("\n Enter number\n");
-					scanf("%d",&ele);
-					insEnd(ele);
-					break;
-			case 7:delEnd();
-					break;
-			case 8:exit(0);
-					break;
+				scanf("%d",&ele);
+				insEnd(ele);
+				break;
+			case 7: delEnd();
+				break;
+			default: exit(0);
+				break;
+			
 		}
-	}
+	}	
 }
