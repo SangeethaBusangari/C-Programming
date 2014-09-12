@@ -17,9 +17,9 @@ int main(void)
 	temp=num[r];
 	num[r]=num[0];
 	num[0]=temp;
-	printf("after pivot selection:\n");
+	/*printf("after pivot selection:\n");
 	for(i=0;i<n;i++)
-	printf("%d\n",num[i]);
+	printf("%d\n",num[i]);*/
 	quicksort(0,n-1);
  	printf("After sorting \n");
  	for(i=0;i<n;i++)
@@ -30,7 +30,7 @@ void quicksort(int low,int high)
  	 int p;
  	 if(low<high)
  	 {
-   		 p=partition(low,high);
+   		 p=partition(low,high+1);
    		 quicksort(low,p-1);
    		 quicksort(p+1,high);
  	 }
@@ -38,9 +38,12 @@ void quicksort(int low,int high)
 int partition(int low,int high)
 {
  	 int pivot,l,r,temp;
+	 pivot=num[low];
+	 l=low+1;
+	 r=high-1;
  	 while(l<r)
  	 {
-   		 while(num[l]<pivot)
+   		 while(num[l]<pivot && l<r)
    			 l++;
   		 while(num[r]>pivot)
    			 r--;
@@ -70,6 +73,6 @@ int random_number(int min,int max)
 		hi=min;
 	}
 	srand(time(NULL));
-	result=(rand()%(hi-low))+low;
+	result=(rand()%(hi-low))+1;
 	return result;
 }
