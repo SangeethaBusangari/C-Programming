@@ -10,7 +10,7 @@ int find(int u,int v)
 {
 	if(u==v)
 	{
-		printf("no edge in between the cells. both are in same set\n");
+		printf("No wall in between the cells. both are in same set\n");
 		return 1;
 	}
 	else
